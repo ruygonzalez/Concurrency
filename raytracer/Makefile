@@ -33,7 +33,7 @@ $(OBJDIR)/PointLight.o: $(SRCDIR)/PointLight.cpp \
 $(OBJDIR)/Ray.o: $(SRCDIR)/Ray.cpp $(SRCDIR)/Ray.h \
     $(SRCDIR)/structs.h
 	$(CC) $(CFLAGS) -c $(SRCDIR)/Ray.cpp -o $(OBJDIR)/Ray.o
-	
+
 $(OBJDIR)/RaytracerApp.o: $(SRCDIR)/RaytracerApp.cpp \
     $(SRCDIR)/RaytracerApp.h $(SRCDIR)/RaytracerBase.h \
     $(SRCDIR)/Shader.h $(SRCDIR)/World.h
@@ -75,14 +75,14 @@ $(OBJDIR)/XMLSceneParser.o: $(SRCDIR)/XMLSceneParser.cpp \
 clean:
 	rm -f $(OBJDIR)/*.o $(BINDIR)/raytracer
 	rm -rf $(DOCSDIR)/*
-	
+
 docs:
 	$(DOCSGEN)
 
 memcheck: $(OBJS)
 	$(CC) $(CFLAGS) -c -DVALGRIND $(SRCDIR)/RaytracerApp.cpp -o $(OBJDIR)/RaytracerApp.o
 	$(CC) $(OBJS) $(LIBS) -o $(BINDIR)/raytracer
-	valgrind --tool=memcheck --leak-check=full $(BINDIR)/raytracer -s 2>&1 | tee memcheck.full
+	valgrind --tool=memcheck --leak-check=full $(BINDIR)/raytracer -m 2>&1 | tee memcheck.full
 
 callgrind: $(OBJS)
 	$(CC) $(CFLAGS) -c -DVALGRIND $(SRCDIR)/RaytracerApp.cpp -o $(OBJDIR)/RaytracerApp.o
