@@ -87,4 +87,4 @@ memcheck: $(OBJS)
 callgrind: $(OBJS)
 	$(CC) $(CFLAGS) -c -DVALGRIND $(SRCDIR)/RaytracerApp.cpp -o $(OBJDIR)/RaytracerApp.o
 	$(CC) $(OBJS) $(LIBS) -o $(BINDIR)/raytracer
-	valgrind --tool=callgrind $(BINDIR)/raytracer -s
+	valgrind --tool=callgrind $(BINDIR)/raytracer -m
