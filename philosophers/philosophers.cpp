@@ -49,7 +49,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <ncurses.h>
-#include "Thread.h"
+#include <thread>
 
 /**
  * @brief Number of philosophers; also number of forks available.
@@ -268,16 +268,14 @@ public:
  * @brief Array of all philosophers in the system. This can be used
  * by any philosophers to talk to others (Chandy solution).
  */
-void *phils[NUMPHILS];
+Philosopher *phils[NUMPHILS];
 
 
 /**
  * @attention Student-implemented function
  */
-void *greedy(void *p)
+void greedy(Philosopher *phil)
 {
-    Philosopher *phil = (Philosopher *) p;
-
     while (true)
     {
         phil->pickup_fork(LEFT);
@@ -288,26 +286,26 @@ void *greedy(void *p)
         phil->release_fork(RIGHT);
         phil->release_fork(LEFT);
     }
-
-    return NULL;
 }
 
 
 /**
  * @attention Student-implemented function
  */
-void *waiter(void *p)
+void waiter(Philosopher *p)
 {
-    return NULL;
+    // TODO Fill in this function with your waiter solution to the dining
+    //      philosophers problem.
 }
 
 
 /**
  * @attention Student-implemented function
  */
-void *talking(void *p)
+void talking(Philosopher *p)
 {
-    return NULL;
+    // TODO Fill in this function with your implementation of the Chandy-Misra
+    //      solution.
 }
 
 
@@ -316,7 +314,7 @@ void *talking(void *p)
  * forks, indicating which forks are taken and which philosophers are
  * eating.
  */
-void *update_ascii_display(void *null)
+void update_ascii_display()
 {
     while (true)
     {
@@ -325,8 +323,8 @@ void *update_ascii_display(void *null)
         /* First line: Philosophers and unused forks? */
         for (int i = 0; i < NUMPHILS; i++)
         {
-            Philosopher *p = (Philosopher *) phils[i];
-            Philosopher *q = (Philosopher *) phils[IDLEFT(i)];
+            Philosopher *p = phils[i];
+            Philosopher *q = phils[IDLEFT(i)];
 
             if ((p->has_fork(LEFT) == false) &&
             (q->has_fork(RIGHT) ==  false))
@@ -342,7 +340,7 @@ void *update_ascii_display(void *null)
         /* Second line: Which philosophers have which forks? */
         for (int i = 0; i < NUMPHILS; i++)
         {
-            Philosopher *p = (Philosopher *) phils[i];
+            Philosopher *p = phils[i];
 
             printw("           ");
 
@@ -370,7 +368,7 @@ void *update_ascii_display(void *null)
         /* Third line: Which philosophers are eating? */
         for (int i = 0; i < NUMPHILS; i++)
         {
-            Philosopher *p = (Philosopher *) phils[i];
+            Philosopher *p = phils[i];
 
             printw("         ");
 
@@ -387,15 +385,13 @@ void *update_ascii_display(void *null)
         refresh();
         usleep(DISPLAYINTERVAL);
     }
-
-    return NULL;
 }
 
 
 int main(int argc, char *argv[])
 {
     Fork *forks = new Fork[NUMPHILS];
-    Thread *t = new Thread[NUMPHILS], *update = new Thread;
+    std::thread **t = new std::thread *[NUMPHILS];
 
     if (argc != 2)
     {
@@ -410,8 +406,8 @@ int main(int argc, char *argv[])
             for (int i = 0; i < NUMPHILS; i++)
             {
                 int j = (i + 1) % NUMPHILS;
-                phils[i] = (void *) new Philosopher(&forks[i], &forks[j], i);
-                (&t[i])->run(greedy, phils[i]);
+                phils[i] = new Philosopher(&forks[i], &forks[j], i);
+                t[i] = new std::thread(greedy, phils[i]);
             }
         }
         else if (strcmp(argv[1], "-w") == 0)
@@ -420,8 +416,8 @@ int main(int argc, char *argv[])
             for (int i = 0; i < NUMPHILS; i++)
             {
                 int j = (i + 1) % NUMPHILS;
-                phils[i] = (void *) new Philosopher(&forks[i], &forks[j], i);
-                (&t[i])->run(waiter, phils[i]);
+                phils[i] = new Philosopher(&forks[i], &forks[j], i);
+                t[i] = new std::thread(waiter, phils[i]);
             }
         }
         else if (strcmp(argv[1], "-t") == 0)
@@ -430,8 +426,7 @@ int main(int argc, char *argv[])
             for (int i = 0; i < NUMPHILS; i++)
             {
                 int j = (i + 1) % NUMPHILS;
-                phils[i] = (void *) new TalkingPhilosopher(&forks[i],
-                    &forks[j], i);
+                phils[i] = new TalkingPhilosopher(&forks[i], &forks[j], i);
 
                 TalkingPhilosopher *phil = (TalkingPhilosopher *) phils[i];
 
@@ -447,7 +442,7 @@ int main(int argc, char *argv[])
             }
 
             for (int i = 0; i < NUMPHILS; i++)
-                (&t[i])->run(talking, phils[i]);
+                t[i] = new std::thread(talking, phils[i]);
         }
         else
         {
@@ -458,15 +453,23 @@ int main(int argc, char *argv[])
 
     /* Enter ncurses mode and begin an ASCII update loop. */
     initscr();
-    update->run(update_ascii_display, NULL);
+    std::thread *update = new std::thread(update_ascii_display);
     update->join();
 
     /* Join all running threads. */
     for (int i = 0; i < NUMPHILS; i++)
     {
-        (&t[i])->join();
+        t[i]->join();
     }
 
     /* End ncurses mode. */
     endwin();
+
+    // Clean up memory.
+    delete update;
+    for (int i = 0; i < NUMPHILS; i++)
+    {
+        delete t[i];
+    }
+    delete[] t;
 }
