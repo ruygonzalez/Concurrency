@@ -49,8 +49,8 @@
 #include <SDL.h>
 #include <SDL_gfxPrimitives.h>
 #include <math.h>
+#include <mutex>
 #include "structs.h"
-#include "Thread.h"
 
 
 /**
@@ -78,7 +78,7 @@ private:
     SDL_Surface *surf;
     float height, width;
     long int pixcount;
-    Mutex *m;
+    std::mutex *m;
 };
 
 #endif

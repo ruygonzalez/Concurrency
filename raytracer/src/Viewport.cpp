@@ -81,7 +81,7 @@ Viewport::Viewport(Vertex *tl, Vertex *tr, Vertex *bl)
     width = sqrtf(dx * dx + dy * dy + dz * dz);
 
     pixcount = 0;
-    m = new Mutex();
+    m = new std::mutex();
 }
 
 

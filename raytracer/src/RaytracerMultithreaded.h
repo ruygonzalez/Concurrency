@@ -49,7 +49,7 @@
 #include <stdio.h>
 #include <math.h>
 #include "RaytracerBase.h"
-#include "Thread.h"
+#include <thread>
 
 using namespace std;
 

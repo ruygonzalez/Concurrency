@@ -1,6 +1,6 @@
 CC = g++
 DOCSGEN = doxygen
-CFLAGS = -Wall -ansi -pedantic -ggdb `sdl-config --cflags`  `xml2-config --cflags`
+CFLAGS = -Wall -ansi -pedantic -ggdb -std=c++11 `sdl-config --cflags`  `xml2-config --cflags`
 LIBS = -lm `sdl-config --libs` -lSDL_gfx  `xml2-config --libs` -lpthread
 SRCDIR = src
 OBJDIR = obj
@@ -41,7 +41,7 @@ $(OBJDIR)/RaytracerApp.o: $(SRCDIR)/RaytracerApp.cpp \
 
 $(OBJDIR)/RaytracerMultithreaded.o: $(SRCDIR)/RaytracerMultithreaded.cpp \
     $(SRCDIR)/RaytracerMultithreaded.h $(SRCDIR)/RaytracerBase.h \
-    $(SRCDIR)/World.h $(SRCDIR)/Thread.h
+    $(SRCDIR)/World.h
 	$(CC) $(CFLAGS) -c $(SRCDIR)/RaytracerMultithreaded.cpp -o $(OBJDIR)/RaytracerMultithreaded.o
 
 $(OBJDIR)/RaytracerSinglethreaded.o: $(SRCDIR)/RaytracerSinglethreaded.cpp \
