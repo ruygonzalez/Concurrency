@@ -4,6 +4,10 @@
 #include <condition_variable>
 #include <mutex>
 
+/*
+ * Semaphore implementation adapted from
+ * http://stackoverflow.com/questions/4792449/c0x-has-no-semaphores-how-to-synchronize-threads
+ */
 class Semaphore {
 private:
     std::mutex m;

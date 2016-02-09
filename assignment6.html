@@ -477,9 +477,10 @@ afterwards to revert to the normal behavior.</p>
 
 <h4>Helpful hints</h4>
 
-<p>You cannot call a member function from a thread
-directly; if this is something you would like to do, you will need to
-wrap it in a non-class function first, like this:</p>
+<p>To use a class member function in a thread requires some special syntax: the
+function must be qualified by the class name, and "this" (a pointer to the
+object itself) is an implicit argument to any member function, so "this" must be
+included as the first argument. An example follows:</p>
 
 <pre class="prettyprint code">
 class Foo
@@ -488,17 +489,15 @@ class Foo
     ~Foo() { }
 
     void f() { /* Do something interesting here. */ }
+
+    /* The function that starts the thread. */
+    void run() {
+        std::thread *t = new std::thread(&Foo::f, this);
+        t->join();
+
+        delete t;
+    }
 };
-
-void *f_wrapper(void *arg)
-{
-    Foo *fptr = (Foo *) arg;
-    fptr->f();
-}
-
-Foo *f = new Foo();
-Thread *t = new Thread();
-t->run(f_wrapper, (void *) f);
 </pre>
 
 <p>The overhead associated with creating a thread is high, so you should
