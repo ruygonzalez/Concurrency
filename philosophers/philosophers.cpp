@@ -71,7 +71,7 @@
 /**
  * @brief How long a philosopher eats when he has both forks (in us).
  */
-#define EATTIME     (25600)
+#define EATTIME     (1000000)
 
 /**
  * @brief How long to wait between display refreshes (in us).
