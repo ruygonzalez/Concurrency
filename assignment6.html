@@ -357,12 +357,17 @@ there is no need for a formal proof.</p>
 <p><div class="points easy">3</div>Using the
 <span class="code">greedy</span> solution as a guide, fill in the
 function <span class="code">waiter</span> to implement this solution.
-You may use any appropriate concurrency primitives and define any local
-or global variables you need. Again, consulting the documentation may
-be helpful. Run <span class="code">philosophers -w</span> at
-a terminal prompt to observe the behavior of your algorithm. <b>Your
+You may define any local or global variables you need.
+You may use any appropriate concurrency primitives, such as semaphores or locks.
+Run <span class="code">philosophers -w</span> at a terminal prompt to observe
+the behavior of your algorithm. <b>Your
 solution should not deadlock, and every philosopher should eventually
-eat, or it is not a solution.</b></p>
+eat, or it is not a solution.</b> Note: in the past, we have seen unsafe
+solutions that did not use any concurrency primitives. Some of these solutions
+could have been correct if they had used <span class="code">std::atomic</span>
+with the default memory order. You can read about <span class="code"><a href="http://en.cppreference.com/w/cpp/atomic/atomic">std::atomic</a></span>
+and <span class="code"><a href="http://en.cppreference.com/w/cpp/atomic/memory_order">std::memory_order</a></span>,
+though this reading is somewhat advanced.</p>
 
 <p>In October 1984, K. M. Chandy and J. Misra published a paper in
 <i>ACM Transactions on Programming Languages and Systems</i> (volume 6,
