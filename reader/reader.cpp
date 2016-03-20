@@ -5,23 +5,22 @@
  * @date 2013-2014
  * @copyright see License section
  *
- * @brief Debugging exercise; contains the definitions for a Node 
+ * @brief Debugging exercise; contains the definitions for a Node
  * and a Queue.
  *
- * @details This file contains the definitions for a Node and a Queue. 
- * This code will read lines of input until the end of the file is reached 
- * (Ctrl-D from the terminal), and then it will print out the first 
- * `NUM_OUTPUT` lines of the input. If a line is longer than `BUFFER_SIZE`, 
- * it will be treated as separate lines (due to the behavior of `fgets`).
- * 
+ * @details This file contains the definitions for a Node and a Queue.
+ * This code will read lines of input until the end of the file is reached
+ * (Ctrl-D from the terminal), and then it will print out the first
+ * `NUM_OUTPUT` lines of the input.
+ *
  * @section License
  * Copyright (c) 2013-2014 California Institute of Technology.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
  * met:
- * 
+ *
  * * Redistributions of source code must retain the above copyright
  *   notice, this list of conditions and the following disclaimer.
  * * Redistributions in binary form must reproduce the above
@@ -31,7 +30,7 @@
  * * Neither the name of the  nor the names of its
  *   contributors may be used to endorse or promote products derived from
  *   this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -45,14 +44,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * The views and conclusions contained in the software and documentation are those
- * of the authors and should not be interpreted as representing official policies, 
+ * of the authors and should not be interpreted as representing official policies,
  * either expressed or implied, of the California Institute of Technology.
- * 
+ *
  */
 
 #include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
+#include <iostream>
 
 // Size of the buffer for reading input
 const int BUFFER_SIZE = 1000;
@@ -112,7 +111,7 @@ public:
     tail = NULL;
   }
 
-  
+
   /**
    * @brief Inserts a string to the end of the Queue.
    */
@@ -162,16 +161,11 @@ int main()
   // Create a buffer to hold the input
   char buffer[BUFFER_SIZE];
 
+  // Read a line of input
+  std::cin.getline(buffer, BUFFER_SIZE);
+
   int count = 0;
-  while (true) {
-
-    // Read a line of input
-    fgets(buffer, BUFFER_SIZE, stdin);
-    if (feof(stdin)) {
-      // No more input
-      break;
-    }
-
+  while (!std::cin.fail()) {
     // One more string was read
     count++;
 
@@ -182,13 +176,16 @@ int main()
 
     // Add the string to the Queue
     queue.push_back(string);
+
+    // Read another line of input
+    std::cin.getline(buffer, BUFFER_SIZE);
   }
 
   count = 0;
   while (!queue.is_empty() && count < NUM_OUTPUT) {
     // Print the first few lines
     count++;
-    printf("String #%d: %s\n", count, queue.pop_front());
+    std::cout << "String #" << count << ": " << queue.pop_front() << std::endl;
   }
 
   return 0;
