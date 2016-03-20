@@ -1,20 +1,20 @@
 /**
- * @file Entity.h
+ * @file Sphere.hpp
  * @author Ellen Price <<eprice@caltech.edu>>
  * @version 1.0
  * @date 2013-2014
  * @copyright see License section
  *
- * @brief Definition of abstract 3D object class.
- * 
+ * @brief Definitions for a 3D sphere class.
+ *
  * @section License
  * Copyright (c) 2013-2014 California Institute of Technology.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
  * met:
- * 
+ *
  * * Redistributions of source code must retain the above copyright
  *   notice, this list of conditions and the following disclaimer.
  * * Redistributions in binary form must reproduce the above
@@ -24,7 +24,7 @@
  * * Neither the name of the  nor the names of its
  *   contributors may be used to endorse or promote products derived from
  *   this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -38,69 +38,39 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * The views and conclusions contained in the software and documentation are those
- * of the authors and should not be interpreted as representing official policies, 
+ * of the authors and should not be interpreted as representing official policies,
  * either expressed or implied, of the California Institute of Technology.
- * 
+ *
  */
 
-#ifndef __ENTITY_H__
-#define __ENTITY_H__
+#ifndef __SPHERE_H__
+#define __SPHERE_H__
 
-#include <stdlib.h>
-#include "Ray.h"
-#include "Material.h"
-#include "structs.h"
+#include <math.h>
+#include "Entity.hpp"
+#include "Ray.hpp"
+#include "structs.hpp"
 
 using namespace std;
 
 
 /**
- * @brief Abstract class describing an object in 3D space.
+ * @brief Encapsulates a 3D sphere (subclass of Entity).
  */
-class Entity
+class Sphere : protected Entity
 {
 public:
-    /**
-     * @brief Peforms basic initialization by setting
-     * references equal to `NULL`.
-     */
-    Entity() { material = NULL; t = NULL; s = NULL; }
-    
-    /**
-     * @brief Performs cleanup for any object by deleting
-     * its material and transformation matrices.
-     */
-    virtual ~Entity()
-    {
-        delete material;
-        if (t) delete t;
-        if (s) delete s;
-    };
+    Sphere(Vertex *o, float r, Material *mat);
+    ~Sphere();
 
-    /**
-     * @brief Function that all inheriting classes must
-     * implement, indicating whether an arbitrary ray
-     * intersects the Entity.
-     *
-     * @param[in] ray Ray to check.
-     *
-     * @param[out] normal Normal vector to the intersection.
-     *
-     * @return `true` if the ray intersects, `false` otherwise.
-     */
-    virtual bool does_intersect(Ray *ray, Ray **normal) = 0;
-    
-    /**
-     * @brief Gets the material associated with an object.
-     *
-     * @return material Pointer to Material for this Entity.
-     */
-    Material *get_material() { return material; }
+    bool does_intersect(Ray *ray, Ray **normal);
 
-protected:
-    Material *material;
-    TranslationMatrix *t;
-    ScalingMatrix *s;
+private:
+    float radius;
+
+    void transform_ray_to_local_space(Ray *r, Ray **dest);
+    void transform_normal_to_world_space(Vertex *n);
+    void transform_intersection_point_to_world_space(Vertex *i);
 };
 
 #endif

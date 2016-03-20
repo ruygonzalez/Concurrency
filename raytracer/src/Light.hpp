@@ -1,21 +1,20 @@
 /**
- * @file World.h
+ * @file Light.hpp
  * @author Ellen Price <<eprice@caltech.edu>>
  * @version 1.0
  * @date 2013-2014
  * @copyright see License section
  *
- * @brief Definitions for a 3D world, which contains objects, an eye,
- * and a viewport.
- * 
+ * @brief Definition of abstract 3D light class.
+ *
  * @section License
  * Copyright (c) 2013-2014 California Institute of Technology.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
  * met:
- * 
+ *
  * * Redistributions of source code must retain the above copyright
  *   notice, this list of conditions and the following disclaimer.
  * * Redistributions in binary form must reproduce the above
@@ -25,7 +24,7 @@
  * * Neither the name of the  nor the names of its
  *   contributors may be used to endorse or promote products derived from
  *   this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -39,54 +38,61 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * The views and conclusions contained in the software and documentation are those
- * of the authors and should not be interpreted as representing official policies, 
+ * of the authors and should not be interpreted as representing official policies,
  * either expressed or implied, of the California Institute of Technology.
- * 
+ *
  */
 
-#ifndef __WORLD_H__
-#define __WORLD_H__
+#ifndef __LIGHT_H__
+#define __LIGHT_H__
 
-#include <vector>
-#include "Ray.h"
-#include "Entity.h"
-#include "Light.h"
-#include "Viewport.h"
-#include "structs.h"
+#include "structs.hpp"
 
 
 /**
- * @brief Encapsulates a 3D world (a container for entities and
- * lights that defines a viewer and a viewport).
+ * @brief Abstract class describing a light in 3D space.
  */
-class World
+class Light
 {
 public:
-    World();
-    ~World();
+    /**
+     * @brief Dummy initializer for class; does nothing.
+     */
+    Light() { };
 
-    void set_eye(Vertex *e);
-    void set_viewport(Viewport *v);
+    /**
+     * @brief Dummy deinitializer for class; does nothing.
+     */
+    virtual ~Light() { };
 
-    Vertex *get_eye();
-    Viewport *get_viewport();
+    /**
+     * @brief Gets the intensity of this light at some point
+     * in 3D space; all inheriting classes must implement.
+     *
+     * @param[in] p The vertex to be queried.
+     *
+     * @return The intensity in [0,1].
+     */
+    virtual float get_intensity_at_point(Vertex *p) = 0;
 
-    void add_entity(Entity *e);
-    void add_light(Light *l);
+    /**
+     * @brief Gets the position of this light; all inheriting
+     * classes must implement.
+     *
+     * @return The position as a Vertex object.
+     */
+    virtual Vertex *get_position() = 0;
 
-    vector<Entity *> get_entity_vector();
-    vector<Light *> get_light_vector();
+    /**
+     * @brief Gets the color of this light.
+     *
+     * @return The color as a Color object.
+     */
+    Color *get_color() { return color; }
 
-    void get_eye_viewport_ray(int x, int y, Ray **ray);
-
-    int get_viewport_height();
-    int get_viewport_width();
-
-private:
-    vector<Entity *> entities;
-    vector<Light *> lights;
-    Vertex *eye;
-    Viewport *viewport;
+protected:
+    Color *color;
+    float intensity;
 };
 
 #endif

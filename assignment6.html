@@ -315,7 +315,7 @@ each philosopher in a new thread and calls the correct function to
 determine his behavior is provided for you. You might be interested in using
 <span class="code">std::thread</span>, <span class="code">std::mutex</span>,
 and/or the semaphore implementation that we provide in
-<span class="code">philosophers/semaphore.h</span>.
+<span class="code">philosophers/semaphore.hpp</span>.
 
 <p>To make your task easier, we have provided a simple visualizer
 for the philsophers-forks system. An example of the output is
@@ -430,16 +430,16 @@ following classes may be particularly important.</p>
         objects, which determines all the functions such an object must
         have. The only Entity that is currently defined is the
         <span class="code">Sphere</span>. Relevant files are
-        <span class="code">src/Entity.h</span>,
-        <span class="code">src/Sphere.h</span>, and
+        <span class="code">src/Entity.hpp</span>,
+        <span class="code">src/Sphere.hpp</span>, and
         <span class="code">src/Sphere.cpp</span>.</li>
 	<li><b><span class="code">Light</span>:</b> A
         <span class="code">Light</span> describes a virtual light in
         world space. Remember that lights cannot be seen themselves, but
         their effects can. The only <span class="code">Light</span> that
         is currently defined is the <span class="code">PointLight</span>.
-        Relevant files are <span class="code">src/Light.h</span>,
-        <span class="code">src/PointLight.h</span>,
+        Relevant files are <span class="code">src/Light.hpp</span>,
+        <span class="code">src/PointLight.hpp</span>,
 		and <span class="code">src/PointLight.cpp</span>.</li>
 	<li><b><span class="code">Ray</span>:</b> Defines a geometric ray
         with an origin (a <b><span class="code">Vertex</span></b>)
@@ -447,7 +447,7 @@ following classes may be particularly important.</p>
         Thus, the endpoint of a <span class="code">Ray</span> is just
         the origin plus the displacement. Relevant files are
 		<span class="code">src/Ray.cpp</span>,
-        <span class="code">Ray.h</span>, and
+        <span class="code">Ray.hpp</span>, and
         <span class="code">src/structs.cpp</span>.</li>
 </ul>
 

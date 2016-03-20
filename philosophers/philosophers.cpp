@@ -51,7 +51,7 @@
 #include <ncurses.h>
 #include <thread>
 #include <mutex>
-#include "semaphore.h"
+#include "semaphore.hpp"
 
 /**
  * @brief Number of philosophers; also number of forks available.

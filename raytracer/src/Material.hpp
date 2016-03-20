@@ -1,20 +1,20 @@
 /**
- * @file Sphere.h
+ * @file Material.hpp
  * @author Ellen Price <<eprice@caltech.edu>>
  * @version 1.0
  * @date 2013-2014
  * @copyright see License section
  *
- * @brief Definitions for a 3D sphere class.
- * 
+ * @brief Definitions for class that defines a material.
+ *
  * @section License
  * Copyright (c) 2013-2014 California Institute of Technology.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
  * met:
- * 
+ *
  * * Redistributions of source code must retain the above copyright
  *   notice, this list of conditions and the following disclaimer.
  * * Redistributions in binary form must reproduce the above
@@ -24,7 +24,7 @@
  * * Neither the name of the  nor the names of its
  *   contributors may be used to endorse or promote products derived from
  *   this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -38,39 +38,33 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * The views and conclusions contained in the software and documentation are those
- * of the authors and should not be interpreted as representing official policies, 
+ * of the authors and should not be interpreted as representing official policies,
  * either expressed or implied, of the California Institute of Technology.
- * 
+ *
  */
 
-#ifndef __SPHERE_H__
-#define __SPHERE_H__
+#ifndef __MATERIAL_H__
+#define __MATERIAL_H__
 
-#include <math.h>
-#include "Entity.h"
-#include "Ray.h"
-#include "structs.h"
-
-using namespace std;
+#include "structs.hpp"
 
 
 /**
- * @brief Encapsulates a 3D sphere (subclass of Entity).
+ * @brief Encapsulates a material that can be applied to any Entity.
  */
-class Sphere : protected Entity
+class Material
 {
 public:
-    Sphere(Vertex *o, float r, Material *mat);
-    ~Sphere();
+    Material(Color *c, float reflect, float refract);
+    ~Material();
 
-    bool does_intersect(Ray *ray, Ray **normal);
+    Color *get_color();
+    float get_reflectivity();
+    float get_refractivity();
 
 private:
-    float radius;
-
-    void transform_ray_to_local_space(Ray *r, Ray **dest);
-    void transform_normal_to_world_space(Vertex *n);
-    void transform_intersection_point_to_world_space(Vertex *i);
+    Color *color;
+    float reflectivity, refractivity;
 };
 
 #endif

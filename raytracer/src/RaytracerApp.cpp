@@ -45,7 +45,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "RaytracerApp.h"
+#include "RaytracerApp.hpp"
 
 /**
  * @brief The scene file that will be loaded.

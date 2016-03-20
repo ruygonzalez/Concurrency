@@ -6,15 +6,15 @@
  * @copyright see License section
  *
  * @brief Functions for a 3D graphics shader.
- * 
+ *
  * @section License
  * Copyright (c) 2013-2014 California Institute of Technology.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
  * met:
- * 
+ *
  * * Redistributions of source code must retain the above copyright
  *   notice, this list of conditions and the following disclaimer.
  * * Redistributions in binary form must reproduce the above
@@ -24,7 +24,7 @@
  * * Neither the name of the  nor the names of its
  *   contributors may be used to endorse or promote products derived from
  *   this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -38,12 +38,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * The views and conclusions contained in the software and documentation are those
- * of the authors and should not be interpreted as representing official policies, 
+ * of the authors and should not be interpreted as representing official policies,
  * either expressed or implied, of the California Institute of Technology.
- * 
+ *
  */
 
-#include "Shader.h"
+#include "Shader.hpp"
 
 
 /**
@@ -77,13 +77,13 @@ Shader::~Shader()
  *
  * @param[in] view The ray along which the entity is viewed.
  *
- * @param[in] to_light A ray from the entity at the point being 
+ * @param[in] to_light A ray from the entity at the point being
  * viewed to the light `light`.
  *
  * @param[in] normal A surface normal at the surface of `entity`
  * at the point being viewed.
  *
- * @param[in,out] color On input, contains the current color of the 
+ * @param[in,out] color On input, contains the current color of the
  * pixel; the new color is added to the old one. This allows the
  * function to be called multiple times if there are multiple lights.
  */
@@ -127,7 +127,7 @@ Ray *to_light, Ray *normal, Color *color)
 
 
 /**
- * @brief Calculates the diffuse lighting component (Lambertian) 
+ * @brief Calculates the diffuse lighting component (Lambertian)
  * at a point.
  *
  * @attention `to_light` and `normal` should be pre-normalized.
@@ -140,7 +140,7 @@ Ray *to_light, Ray *normal, Color *color)
  *
  * @param[in] normal The surface normal at the point.
  *
- * @param[in,out] color On input, contains the current color of the 
+ * @param[in,out] color On input, contains the current color of the
  * pixel; the new color is added to the old one.
  */
 void Shader::add_diffuse_color(float intensity, Color *light_color,
@@ -156,7 +156,7 @@ Color *entity_color, Ray *to_light, Ray *normal, Color *color)
 
 
 /**
- * @brief Calculates the specular lighting component (Blinn-Phong) 
+ * @brief Calculates the specular lighting component (Blinn-Phong)
  * at a point.
  *
  * @attention `to_viewer` and `reflect` should be pre-normalized.
@@ -167,13 +167,13 @@ Color *entity_color, Ray *to_light, Ray *normal, Color *color)
  *
  * @param[in] entity_color The color of the entity being lit.
  *
- * @param[in] to_viewer A ray from the point being viewed to the 
+ * @param[in] to_viewer A ray from the point being viewed to the
  * viewer.
  *
- * @param[in] reflect A ray along the light's reflection off the 
+ * @param[in] reflect A ray along the light's reflection off the
  * entity surface
  *
- * @param[in,out] color On input, contains the current color of the 
+ * @param[in,out] color On input, contains the current color of the
  * pixel; the new color is added to the old one.
  */
 void Shader::add_specular_color(float intensity, Color *light_color,
@@ -194,7 +194,7 @@ Color *entity_color, Ray *to_viewer, Ray *reflect, Color *color)
  *
  * @param[in] entity The entity whose color is to be used.
  *
- * @param[in,out] color On input, contains the current color of the 
+ * @param[in,out] color On input, contains the current color of the
  * pixel; the new color is added to the old one.
  */
 void Shader::shade_ambient(Entity *entity, Color *color)

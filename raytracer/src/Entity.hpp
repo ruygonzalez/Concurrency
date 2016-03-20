@@ -1,20 +1,20 @@
 /**
- * @file Ray.h
+ * @file Entity.hpp
  * @author Ellen Price <<eprice@caltech.edu>>
  * @version 1.0
  * @date 2013-2014
  * @copyright see License section
  *
- * @brief Definitions for 3D vector with origin and displacement.
- * 
+ * @brief Definition of abstract 3D object class.
+ *
  * @section License
  * Copyright (c) 2013-2014 California Institute of Technology.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
  * met:
- * 
+ *
  * * Redistributions of source code must retain the above copyright
  *   notice, this list of conditions and the following disclaimer.
  * * Redistributions in binary form must reproduce the above
@@ -24,7 +24,7 @@
  * * Neither the name of the  nor the names of its
  *   contributors may be used to endorse or promote products derived from
  *   this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -38,55 +38,69 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * The views and conclusions contained in the software and documentation are those
- * of the authors and should not be interpreted as representing official policies, 
+ * of the authors and should not be interpreted as representing official policies,
  * either expressed or implied, of the California Institute of Technology.
- * 
+ *
  */
 
-#ifndef __RAY_H__
-#define __RAY_H__
+#ifndef __ENTITY_H__
+#define __ENTITY_H__
 
 #include <stdlib.h>
-#include "structs.h"
+#include "Ray.hpp"
+#include "Material.hpp"
+#include "structs.hpp"
 
 using namespace std;
 
 
 /**
- * @brief Encapsulates a ray in 3D space.
+ * @brief Abstract class describing an object in 3D space.
  */
-class Ray
+class Entity
 {
 public:
-    Ray();
-    Ray(Vertex *o, Vertex *d);
-    ~Ray();
+    /**
+     * @brief Peforms basic initialization by setting
+     * references equal to `NULL`.
+     */
+    Entity() { material = NULL; t = NULL; s = NULL; }
 
     /**
-     * @brief Computes the dot product of two rays (vectors).
-     *
-     * @param[in] r1 The first ray in the product.
-     *
-     * @param[in] r2 The second ray in the product.
-     *
-     * @return The dot product (a scalar) of the two rays.
+     * @brief Performs cleanup for any object by deleting
+     * its material and transformation matrices.
      */
-    static float dot_product(Ray *r1, Ray *r2)
+    virtual ~Entity()
     {
-        Vertex *v1 = r1->get_displacement();
-        Vertex *v2 = r2->get_displacement();
+        delete material;
+        if (t) delete t;
+        if (s) delete s;
+    };
 
-        return v1->x * v2->x + v1->y * v2->y + v1->z * v2->z;
-    }
+    /**
+     * @brief Function that all inheriting classes must
+     * implement, indicating whether an arbitrary ray
+     * intersects the Entity.
+     *
+     * @param[in] ray Ray to check.
+     *
+     * @param[out] normal Normal vector to the intersection.
+     *
+     * @return `true` if the ray intersects, `false` otherwise.
+     */
+    virtual bool does_intersect(Ray *ray, Ray **normal) = 0;
 
-    Vertex *get_origin();
-    void set_origin(Vertex *o);
+    /**
+     * @brief Gets the material associated with an object.
+     *
+     * @return material Pointer to Material for this Entity.
+     */
+    Material *get_material() { return material; }
 
-    Vertex *get_displacement();
-    void set_displacement(Vertex *d);
-
-private:
-    Vertex *origin, *displacement;
+protected:
+    Material *material;
+    TranslationMatrix *t;
+    ScalingMatrix *s;
 };
 
 #endif

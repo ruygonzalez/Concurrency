@@ -1,20 +1,21 @@
 /**
- * @file RaytracerApp.h
+ * @file World.hpp
  * @author Ellen Price <<eprice@caltech.edu>>
  * @version 1.0
  * @date 2013-2014
  * @copyright see License section
  *
- * @brief Definitions for the main application class.
- * 
+ * @brief Definitions for a 3D world, which contains objects, an eye,
+ * and a viewport.
+ *
  * @section License
  * Copyright (c) 2013-2014 California Institute of Technology.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
  * met:
- * 
+ *
  * * Redistributions of source code must retain the above copyright
  *   notice, this list of conditions and the following disclaimer.
  * * Redistributions in binary form must reproduce the above
@@ -24,7 +25,7 @@
  * * Neither the name of the  nor the names of its
  *   contributors may be used to endorse or promote products derived from
  *   this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -38,56 +39,54 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * The views and conclusions contained in the software and documentation are those
- * of the authors and should not be interpreted as representing official policies, 
+ * of the authors and should not be interpreted as representing official policies,
  * either expressed or implied, of the California Institute of Technology.
- * 
+ *
  */
 
-#ifndef __RAYTRACERAPP_H__
-#define __RAYTRACERAPP_H__
+#ifndef __WORLD_H__
+#define __WORLD_H__
 
-#include <SDL.h>
-#include <SDL_gfxPrimitives.h>
-#include "World.h"
-#include "Shader.h"
-#include "XMLSceneParser.h"
-#include "RaytracerBase.h"
-#include "RaytracerSinglethreaded.h"
-#include "RaytracerMultithreaded.h"
-
-#define RAYTRACER_SINGLETHREADED    (0)
-#define RAYTRACER_MULTITHREADED     (1)
-
-#define SCREEN_WIDTH    (800)
-#define SCREEN_HEIGHT   (600)
+#include <vector>
+#include "Ray.hpp"
+#include "Entity.hpp"
+#include "Light.hpp"
+#include "Viewport.hpp"
+#include "structs.hpp"
 
 
 /**
- * @brief Encapsulates the main application class.
+ * @brief Encapsulates a 3D world (a container for entities and
+ * lights that defines a viewer and a viewport).
  */
-class RaytracerApp
+class World
 {
 public:
-    RaytracerApp();
-    ~RaytracerApp();
-    
-    bool OnInit();
-    int OnExecute();
-    void OnEvent(SDL_Event *event);
-    void OnRender();
-    void OnCleanup();
-    
-    void SetMode(int mode);
-    
+    World();
+    ~World();
+
+    void set_eye(Vertex *e);
+    void set_viewport(Viewport *v);
+
+    Vertex *get_eye();
+    Viewport *get_viewport();
+
+    void add_entity(Entity *e);
+    void add_light(Light *l);
+
+    vector<Entity *> get_entity_vector();
+    vector<Light *> get_light_vector();
+
+    void get_eye_viewport_ray(int x, int y, Ray **ray);
+
+    int get_viewport_height();
+    int get_viewport_width();
+
 private:
-    bool running;
-    SDL_Surface *surf;
-    
-    World *world;
-    Shader *shader;
-    Viewport *vp;
-    RaytracerBase *raytracer;
-    int mode;
+    vector<Entity *> entities;
+    vector<Light *> lights;
+    Vertex *eye;
+    Viewport *viewport;
 };
 
 #endif

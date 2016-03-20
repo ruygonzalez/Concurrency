@@ -6,15 +6,15 @@
  * @copyright see License section
  *
  * @brief Functions for an XML parser that constructs 3D scenes.
- * 
+ *
  * @section License
  * Copyright (c) 2013-2014 California Institute of Technology.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
  * met:
- * 
+ *
  * * Redistributions of source code must retain the above copyright
  *   notice, this list of conditions and the following disclaimer.
  * * Redistributions in binary form must reproduce the above
@@ -24,7 +24,7 @@
  * * Neither the name of the  nor the names of its
  *   contributors may be used to endorse or promote products derived from
  *   this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -38,12 +38,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * The views and conclusions contained in the software and documentation are those
- * of the authors and should not be interpreted as representing official policies, 
+ * of the authors and should not be interpreted as representing official policies,
  * either expressed or implied, of the California Institute of Technology.
- * 
+ *
  */
 
-#include "XMLSceneParser.h"
+#include "XMLSceneParser.hpp"
 
 
 /**
@@ -173,7 +173,7 @@ int XMLSceneParser::load_scene(World *world, char *file)
  *
  * @param[in] str The string to parse.
  *
- * @return The color equivalent to the input string. If a NULL string 
+ * @return The color equivalent to the input string. If a NULL string
  * is supplied, it returns a default (white).
  */
 Color *XMLSceneParser::parse_color(xmlChar *str)
@@ -197,7 +197,7 @@ Color *XMLSceneParser::parse_color(xmlChar *str)
  *
  * @param[in] str The string to parse.
  *
- * @return A float corresponding to the string. If a NULL string is 
+ * @return A float corresponding to the string. If a NULL string is
  * supplied, it returns a default (zero).
  */
 float XMLSceneParser::parse_float(xmlChar *str)
@@ -219,7 +219,7 @@ float XMLSceneParser::parse_float(xmlChar *str)
 /**
  * @brief Parses a material node.
  *
- * @attention Note: This function will always return a valid Material. 
+ * @attention Note: This function will always return a valid Material.
  * If an error occurs, it will return a default (white matte) material.
  *
  * @param[in] node A pointer to a node defining a material.
@@ -306,7 +306,7 @@ Light *XMLSceneParser::parse_pointlight(xmlNodePtr node)
  *
  * @param[in] str The string to parse.
  *
- * @return The vertex equivalent to the input string. If a NULL string 
+ * @return The vertex equivalent to the input string. If a NULL string
  * is supplied, it returns a default (the origin).
  */
 Vertex *XMLSceneParser::parse_vertex(xmlChar *str)

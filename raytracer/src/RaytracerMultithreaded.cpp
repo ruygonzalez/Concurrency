@@ -43,7 +43,7 @@
  *
  */
 
-#include "RaytracerMultithreaded.h"
+#include "RaytracerMultithreaded.hpp"
 
 
 /**

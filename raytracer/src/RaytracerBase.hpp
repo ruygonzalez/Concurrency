@@ -1,20 +1,20 @@
 /**
- * @file RaytracerBase.h
+ * @file RaytracerBase.hpp
  * @author Ellen Price <<eprice@caltech.edu>>
  * @version 1.0
  * @date 2013-2014
  * @copyright see License section
  *
  * @brief Definition of abstract raytracer class.
- * 
+ *
  * @section License
  * Copyright (c) 2013-2014 California Institute of Technology.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
  * met:
- * 
+ *
  * * Redistributions of source code must retain the above copyright
  *   notice, this list of conditions and the following disclaimer.
  * * Redistributions in binary form must reproduce the above
@@ -24,7 +24,7 @@
  * * Neither the name of the  nor the names of its
  *   contributors may be used to endorse or promote products derived from
  *   this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -38,16 +38,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * The views and conclusions contained in the software and documentation are those
- * of the authors and should not be interpreted as representing official policies, 
+ * of the authors and should not be interpreted as representing official policies,
  * either expressed or implied, of the California Institute of Technology.
- * 
+ *
  */
 
 #ifndef __RAYTRACERBASE_H__
 #define __RAYTRACERBASE_H__
 
-#include "Shader.h"
-#include "World.h"
+#include "Shader.hpp"
+#include "World.hpp"
 
 /* This constant can be tuned to meet specific project needs; the only
  * requirement is that it be small compared to the scale of the
@@ -73,8 +73,8 @@ public:
         world = w;
         shader = s;
     }
-    
-    
+
+
     /**
      * @brief Dummy deinitializer; does nothing.
      */
@@ -86,21 +86,21 @@ public:
      * implement; runs the raytracer.
      */
     virtual void run() = 0;
-    
-    
+
+
     /**
      * @brief Determines whether a ray intersects any entity in the 3D world.
-     * 
+     *
      * @param[in] ray The ray of interest.
      *
-     * @param[out] normal The normal vector of the closest intersection, 
+     * @param[out] normal The normal vector of the closest intersection,
      * if one exists.
      *
      * @param[out] entity The closest entity that is intersected.
      *
      * @return `true` if an intersection occurs, `false` otherwise.
      */
-    bool get_closest_entity_intersection(Ray *ray, Ray **normal, 
+    bool get_closest_entity_intersection(Ray *ray, Ray **normal,
     Entity **entity)
     {
         unsigned int i;

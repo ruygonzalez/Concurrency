@@ -1,20 +1,20 @@
 /**
- * @file RaytracerMultithreaded.h
+ * @file XMLSceneParser.hpp
  * @author Ellen Price <<eprice@caltech.edu>>
  * @version 1.0
  * @date 2013-2014
  * @copyright see License section
  *
- * @brief Definitions for multithreaded raytracer.
- * 
+ * @brief Definitions for an XML parser that constructs 3D scenes.
+ *
  * @section License
  * Copyright (c) 2013-2014 California Institute of Technology.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
  * met:
- * 
+ *
  * * Redistributions of source code must retain the above copyright
  *   notice, this list of conditions and the following disclaimer.
  * * Redistributions in binary form must reproduce the above
@@ -24,7 +24,7 @@
  * * Neither the name of the  nor the names of its
  *   contributors may be used to endorse or promote products derived from
  *   this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -38,32 +38,44 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * The views and conclusions contained in the software and documentation are those
- * of the authors and should not be interpreted as representing official policies, 
+ * of the authors and should not be interpreted as representing official policies,
  * either expressed or implied, of the California Institute of Technology.
- * 
+ *
  */
 
-#ifndef __RAYTRACERMULTITHREADED_H__
-#define __RAYTRACERMULTITHREADED_H__
+#ifndef __XMLSCENEPARSER_H__
+#define __XMLSCENEPARSER_H__
 
 #include <stdio.h>
-#include <math.h>
-#include "RaytracerBase.h"
-#include <thread>
-
-using namespace std;
+#include <libxml/xmlmemory.h>
+#include <libxml/parser.h>
+#include "World.hpp"
+#include "Entity.hpp"
+#include "Sphere.hpp"
+#include "Light.hpp"
+#include "PointLight.hpp"
+#include "structs.hpp"
 
 
 /**
- * @brief Encapsulates a multithreaded raytracer.
+ * @brief Defines an XML parser, built on `libxml2`, that reads and
+ * loads a 3D scene.
  */
-class RaytracerMultithreaded : protected RaytracerBase
+class XMLSceneParser
 {
 public:
-    RaytracerMultithreaded(World *w, Shader *s);
-    ~RaytracerMultithreaded();
+    XMLSceneParser();
+    ~XMLSceneParser();
 
-    void run();
+    int load_scene(World *world, char *file);
+
+private:
+    Color *parse_color(xmlChar *str);
+    float parse_float(xmlChar *str);
+    Material *parse_material(xmlNodePtr node);
+    Light *parse_pointlight(xmlNodePtr node);
+    Vertex *parse_vertex(xmlChar *str);
+    Viewport *parse_viewport(xmlNodePtr node);
 };
 
 #endif
