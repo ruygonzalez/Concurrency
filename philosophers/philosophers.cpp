@@ -45,10 +45,10 @@
  */
 
 #include <stdlib.h>
-#include <stdio.h>
 #include <unistd.h>
 #include <string.h>
 #include <ncurses.h>
+#include <iostream>
 #include <thread>
 #include <mutex>
 #include "semaphore.hpp"
@@ -397,7 +397,7 @@ int main(int argc, char *argv[])
 
     if (argc != 2)
     {
-        printf(USAGE);
+        std::cout << USAGE << std::endl;
         return -1;
     }
     else
@@ -448,7 +448,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            printf(USAGE);
+            std::cout << USAGE << std::endl;
             return -1;
         }
     }
