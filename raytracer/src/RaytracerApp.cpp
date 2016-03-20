@@ -44,7 +44,7 @@
  */
 
 #include <stdlib.h>
-#include <stdio.h>
+#include <iostream>
 #include "RaytracerApp.hpp"
 
 /**
@@ -136,8 +136,8 @@ int RaytracerApp::OnExecute()
 Uint32 ascii_update_fps(Uint32 interval, void *param)
 {
     Viewport *vp = (Viewport *) param;
-    fprintf(stderr, "\rFPS: %f",
-        vp->get_frames_rendered(true) / (interval / 1000.));
+    std::cerr << "\rFPS: " <<
+        vp->get_frames_rendered(true) / (interval / 1000.);
 
     return interval;
 }
@@ -176,7 +176,8 @@ bool RaytracerApp::OnInit()
     {
         /* An error occurred loading the scene, so exit early and print
          * an error message to the terminal. */
-        printf("Error: Scene file %s failed to load!\n", XML_SCENE_FILE);
+        std::cout << "Error: Scene file " << XML_SCENE_FILE <<
+            " failed to load!" << std::endl;
         delete sp;
 
         return false;
@@ -249,7 +250,7 @@ void RaytracerApp::OnRender()
 void RaytracerApp::OnCleanup()
 {
     SDL_Quit();
-    printf("\n");
+    std::cout << std::endl;
 }
 
 
@@ -276,7 +277,7 @@ int main(int argc, char* argv[])
         app.SetMode(RAYTRACER_MULTITHREADED);
     else
     {
-        printf("Usage: raytracer -s OR raytracer -m\n");
+        std::cout << "Usage: raytracer -s OR raytracer -m\n" << std::endl;
         return 0;
     }
 
