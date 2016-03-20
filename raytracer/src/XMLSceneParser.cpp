@@ -89,13 +89,13 @@ int XMLSceneParser::load_scene(World *world, char *file)
     /* Open the file for parsing. */
     doc = xmlParseFile(file);
 
-    if (doc == NULL)
+    if (doc == nullptr)
         return -1;
 
     /* Get the root element (scene). */
     cur = xmlDocGetRootElement(doc);
 
-    if (cur == NULL)
+    if (cur == nullptr)
     {
         xmlFreeDoc(doc);
         return -1;
@@ -111,7 +111,7 @@ int XMLSceneParser::load_scene(World *world, char *file)
      * the scene. */
     cur = cur->xmlChildrenNode;
 
-    while (cur != NULL)
+    while (cur != nullptr)
     {
         if (xmlStrcmp(cur->name, (const xmlChar *) "eye") == 0)
         {
@@ -123,7 +123,7 @@ int XMLSceneParser::load_scene(World *world, char *file)
         }
         else if (xmlStrcmp(cur->name, (const xmlChar *) "viewport") == 0)
         {
-            if ((vp = parse_viewport(cur->xmlChildrenNode)) == NULL)
+            if ((vp = parse_viewport(cur->xmlChildrenNode)) == nullptr)
             {
                 return -1;
             }
@@ -173,14 +173,14 @@ int XMLSceneParser::load_scene(World *world, char *file)
  *
  * @param[in] str The string to parse.
  *
- * @return The color equivalent to the input string. If a NULL string
+ * @return The color equivalent to the input string. If a nullptr string
  * is supplied, it returns a default (white).
  */
 Color *XMLSceneParser::parse_color(xmlChar *str)
 {
     float r, g, b;
 
-    if (str == NULL)
+    if (str == nullptr)
     {
         return new Color(1.0, 1.0, 1.0);
     }
@@ -197,14 +197,14 @@ Color *XMLSceneParser::parse_color(xmlChar *str)
  *
  * @param[in] str The string to parse.
  *
- * @return A float corresponding to the string. If a NULL string is
+ * @return A float corresponding to the string. If a nullptr string is
  * supplied, it returns a default (zero).
  */
 float XMLSceneParser::parse_float(xmlChar *str)
 {
     float f;
 
-    if (str == NULL)
+    if (str == nullptr)
     {
         return 0.0;
     }
@@ -234,7 +234,7 @@ Material *XMLSceneParser::parse_material(xmlNodePtr node)
     Color *c;
     float f1, f2;
 
-    while (cur != NULL)
+    while (cur != nullptr)
     {
         if (xmlStrcmp(cur->name, (const xmlChar *) "material") == 0)
         {
@@ -306,14 +306,14 @@ Light *XMLSceneParser::parse_pointlight(xmlNodePtr node)
  *
  * @param[in] str The string to parse.
  *
- * @return The vertex equivalent to the input string. If a NULL string
+ * @return The vertex equivalent to the input string. If a nullptr string
  * is supplied, it returns a default (the origin).
  */
 Vertex *XMLSceneParser::parse_vertex(xmlChar *str)
 {
     float x, y, z;
 
-    if (str == NULL)
+    if (str == nullptr)
     {
         return new Vertex(0.0, 0.0, 0.0);
     }
@@ -330,15 +330,15 @@ Vertex *XMLSceneParser::parse_vertex(xmlChar *str)
  *
  * @param[in] node A pointer to a node defining a viewport.
  *
- * @return Returning a valid viewport if no error occurs, NULL otherwise.
+ * @return Returning a valid viewport if no error occurs, nullptr otherwise.
  */
 Viewport *XMLSceneParser::parse_viewport(xmlNodePtr node)
 {
     xmlNodePtr cur = node;
     xmlChar *prop;
-    Vertex *topleft = NULL, *topright = NULL, *bottomleft = NULL;
+    Vertex *topleft = nullptr, *topright = nullptr, *bottomleft = nullptr;
 
-    while (cur != NULL)
+    while (cur != nullptr)
     {
         if (xmlStrcmp(cur->name, (const xmlChar *) "topleft") == 0)
         {
@@ -362,9 +362,9 @@ Viewport *XMLSceneParser::parse_viewport(xmlNodePtr node)
         cur = cur->next;
     }
 
-    if ((topleft == NULL) || (topright == NULL) || (bottomleft == NULL))
+    if ((topleft == nullptr) || (topright == nullptr) || (bottomleft == nullptr))
     {
-        return NULL;
+        return nullptr;
     }
     else
     {

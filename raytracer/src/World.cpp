@@ -52,8 +52,8 @@
  */
 World::World()
 {
-    eye = NULL;
-    viewport = NULL;
+    eye = nullptr;
+    viewport = nullptr;
 }
 
 

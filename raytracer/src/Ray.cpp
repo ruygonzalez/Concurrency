@@ -51,8 +51,8 @@
  */
 Ray::Ray()
 {
-    origin = NULL;
-    displacement = NULL;
+    origin = nullptr;
+    displacement = nullptr;
 }
 
 

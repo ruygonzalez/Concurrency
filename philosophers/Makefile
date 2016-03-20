@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -Wall -ansi -pedantic -ggdb -std=c++11
+CFLAGS = -Wall -pedantic -ggdb -std=c++11
 LIBS = -lncurses -lpthread
 
 .PHONY: clean

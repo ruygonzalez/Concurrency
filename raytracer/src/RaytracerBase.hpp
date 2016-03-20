@@ -107,8 +107,8 @@ public:
         Ray *temp;
         vector<Entity *> entities = world->get_entity_vector();
 
-        *normal = NULL;
-        *entity = NULL;
+        *normal = nullptr;
+        *entity = nullptr;
 
         for (i = 0; i < entities.size(); i++)
         {

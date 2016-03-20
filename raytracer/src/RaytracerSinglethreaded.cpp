@@ -122,7 +122,7 @@ void RaytracerSinglethreaded::run()
 void RaytracerSinglethreaded::trace(Ray *ray, Color **color)
 {
     unsigned int i;
-    Entity *entity = NULL;
+    Entity *entity = nullptr;
     Ray *to_light, *normal;
     Vertex *lp, *no;
     vector<Light *> lights = world->get_light_vector();

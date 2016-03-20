@@ -64,13 +64,13 @@
 RaytracerApp::RaytracerApp()
 {
     /* Do SDL initialization. */
-    surf = NULL;
+    surf = nullptr;
     running = true;
 
     /* Initialize private fields. */
-    raytracer = NULL;
-    world = NULL;
-    shader = NULL;
+    raytracer = nullptr;
+    world = nullptr;
+    shader = nullptr;
     mode = RAYTRACER_SINGLETHREADED;
 }
 
@@ -158,7 +158,7 @@ bool RaytracerApp::OnInit()
     }
 
     if((surf = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32,
-    SDL_HWSURFACE | SDL_DOUBLEBUF)) == NULL)
+    SDL_HWSURFACE | SDL_DOUBLEBUF)) == nullptr)
     {
         return false;
     }
@@ -238,7 +238,7 @@ void RaytracerApp::OnEvent(SDL_Event* event)
  */
 void RaytracerApp::OnRender()
 {
-    SDL_FillRect(surf, NULL, SDL_MapRGB(surf->format, 0, 0, 0));
+    SDL_FillRect(surf, nullptr, SDL_MapRGB(surf->format, 0, 0, 0));
     raytracer->run();
     SDL_Flip(surf);
 }

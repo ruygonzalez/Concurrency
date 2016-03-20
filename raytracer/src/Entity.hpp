@@ -62,9 +62,9 @@ class Entity
 public:
     /**
      * @brief Peforms basic initialization by setting
-     * references equal to `NULL`.
+     * references equal to `nullptr`.
      */
-    Entity() { material = NULL; t = NULL; s = NULL; }
+    Entity() { material = nullptr; t = nullptr; s = nullptr; }
 
     /**
      * @brief Performs cleanup for any object by deleting
