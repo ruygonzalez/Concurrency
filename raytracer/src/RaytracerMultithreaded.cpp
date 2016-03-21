@@ -45,6 +45,9 @@
 
 #include "RaytracerMultithreaded.hpp"
 
+// Number of threads to use for raytracing
+#define NTHREADS 2
+
 
 /**
  * @brief Initializes the raytracer.
@@ -74,7 +77,7 @@ RaytracerMultithreaded::~RaytracerMultithreaded()
  * @attention This is a student-implemented function. The student
  * should base this function on `RaytracerSinglethreaded::run` and
  * `RaytracerSinglethreaded::trace` in `RaytracerSinglethreaded.cpp`,
- * but it must perform the raytracing task in at least two threads.
+ * but it must perform the raytracing task in NTHREADS different threads.
  */
 void RaytracerMultithreaded::run()
 {
