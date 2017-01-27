@@ -461,7 +461,7 @@ can view the raytracer output by running
 <span class="code">bin/raytracer</span> at a terminal prompt, with
 the appropriate option for single- or multi-threaded.</p>
 
-<p><div class="points easy">3</div>The function
+<p><div class="points easy">4</div>The function
 <span class="code">run()</span> in
 <span class="code">src/RaytracerSinglethreaded.cpp</span> calculates a
 ray through the eye and a single pixel on the viewport; it calls
@@ -469,17 +469,18 @@ ray through the eye and a single pixel on the viewport; it calls
 <span class="code">trace()</span> determines the correct color for the
 pixel and returns it, and <span class="code">run</span> paints the color
 on the viewport. Parallelize the <span class="code">run()</span>
-function by spawning at least two threads to handle different parts of
-the viewport. For example, one thread could paint the left half and
-another could paint the right half.</p>
+function by spawning <span class="code">NTHREADS</span> different threads to
+handle different parts of the viewport. For example, with
+<span class="code">NTHREADS</span> equal to 2, you could have the first thread paint
+the left half and the second thread paint the right half. However, you should
+support any positive value of <span class="code">NTHREADS</span>.</p>
 
-<p><div class="points easy">2</div>There is a
-<span class="code">memcheck</span> target in the Makefile for this
-assignment that will build a version of the code that renders a
-single frame and then exits. Use this to resolve all your memory
-leaks. If you use this Makefile target, you will need to
-<span class="code">make clean</span> and <span class="code">make raytracer</span>
-afterwards to revert to the normal behavior.</p>
+<p><div class="points easy">1</div>Suppose that it it is more computationally
+demanding to trace some rays than others (for example, if most rays go into
+space while a few rays bounce off of a huge number of objects). Why might an
+approach similar to a producer-consumer queue provide a performance improvement
+over an approach that assigns an equal number of rays to each thread? Answer in
+a <span class="code">README</span> file. Our reference answer is three sentences.</p>
 
 <h4>Helpful hints</h4>
 
@@ -510,6 +511,14 @@ class Foo
 try to create as few threads as possible and give them as much to do
 as possible. You will need at least a dual-core processor to observe
 the increased frames-per-second rate from multithreading.</p>
+
+<p>There is a
+<span class="code">memcheck</span> target in the Makefile for this
+assignment that will build a version of the code that renders a
+single frame and then exits. Use this to resolve memory
+leaks. If you use this Makefile target, you will need to
+<span class="code">make clean</span> and <span class="code">make raytracer</span>
+afterwards to revert to the normal behavior.</p>
 
 <p>The Makefile provided has a <span class="code">callgrind</span>
 target that produces a file which you can view with kcachegrind if
