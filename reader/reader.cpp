@@ -138,8 +138,11 @@ public:
       return NULL;
     }
     Node *temp = head;
+    char * x = temp->string;
     head = head->next;
-    return temp->string;
+    // Since you make new Node(string), you want to delete each Node
+    delete temp;
+    return x;
   }
 
 
@@ -176,7 +179,6 @@ int main()
 
     // Add the string to the Queue
     queue.push_back(string);
-
     // Read another line of input
     std::cin.getline(buffer, BUFFER_SIZE);
   }
@@ -185,7 +187,10 @@ int main()
   while (!queue.is_empty() && count < NUM_OUTPUT) {
     // Print the first few lines
     count++;
-    std::cout << "String #" << count << ": " << queue.pop_front() << std::endl;
+    // After char* is popped, you want to delete it as well since you made new char[len] every time you added it to queue
+    char * temp = queue.pop_front();
+    std::cout << "String #" << count << ": " << temp << std::endl;
+    delete temp;
   }
 
   return 0;

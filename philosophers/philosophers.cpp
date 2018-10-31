@@ -117,6 +117,7 @@ public:
     Fork()
     {
         dirty = true;
+        current = new std::mutex(); 
     }
 
     /**
@@ -124,7 +125,7 @@ public:
      */
     ~Fork()
     {
-
+        delete current;
     }
 
     /**
@@ -134,7 +135,8 @@ public:
      */
     void pick_up()
     {
-
+        current->lock();
+        set_dirty(true);
     }
 
     /**
@@ -144,7 +146,8 @@ public:
      */
     void release()
     {
-
+        set_dirty(false);
+        current->unlock();
     }
 
     /**
@@ -173,6 +176,7 @@ private:
      * @brief Describes the current state of the fork.
      */
     bool dirty;
+    std::mutex* current; 
 };
 
 
@@ -197,7 +201,6 @@ public:
         eating = false;
         id = i;
     }
-
     ~Philosopher()
     {
 
@@ -243,7 +246,6 @@ public:
     {
         return id;
     }
-
     Fork *get_fork(int which)
     {
         return fork[which];
@@ -272,6 +274,7 @@ public:
  */
 Philosopher *phils[NUMPHILS];
 
+Semaphore* s = new Semaphore(NUMPHILS-1);
 
 /**
  * @attention Student-implemented function
@@ -282,7 +285,7 @@ void greedy(Philosopher *phil)
     {
         phil->pickup_fork(LEFT);
         phil->pickup_fork(RIGHT);
-
+       
         phil->eat();
 
         phil->release_fork(RIGHT);
@@ -296,8 +299,30 @@ void greedy(Philosopher *phil)
  */
 void waiter(Philosopher *p)
 {
-    // TODO Fill in this function with your waiter solution to the dining
-    //      philosophers problem.
+    // Implementation of greedy algorithm except with a semaphore. 
+    // Semaphore has n-1 open spaces, where n is number of philosophers/forks
+    // If there are no more open spaces (at table) then philosopher has to wait until 
+    // A philosopher stops eating and a spot at the table becomes available. 
+    // Is told when to wait/sit down by "waiter" aka semaphore. 
+    // As philosophers sit down to eat, decrement the number of spaces available in semaphore
+    // Until there's already no spaces in the semaphore (table full) then wait until space 
+    // Becomes available
+    // Once a philosopher is done eating, space at table becomes available (increment semaphore)
+    while (true)
+    {
+        s->dec();
+    
+        p->pickup_fork(LEFT);
+        p->pickup_fork(RIGHT);
+        
+        p->eat();
+        
+        s->inc();
+
+        p->release_fork(RIGHT);
+        p->release_fork(LEFT);
+        
+    }
 }
 
 
